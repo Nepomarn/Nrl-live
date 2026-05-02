@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AU/NZ Live TV</title>
     <link rel="icon" href="data:,">
-
-    <!-- ✅ Telegram Mini App Script -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
     <style>
         :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #f8fafc; }
         body { font-family: sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; }
@@ -38,77 +34,97 @@
         <p class="region-info" id="status-text">Fetching channels...</p>
     </header>
 
-    <!-- Player -->
     <div id="player-container">
-        <div id="p-title">Select a channel</div>
-        <iframe id="player" allowfullscreen></iframe>
+        <div id="p-title">Select a Channel</div>
+        <iframe id="main-ifr" src="" allowfullscreen allow="encrypted-media"></iframe>
     </div>
 
-    <!-- Channel Grid -->
-    <div class="grid" id="channel-grid">
-        <div class="loading">Loading channels...</div>
-    </div>
+    <div id="loader" class="loading">Scanning Satellite...</div>
+    <div class="grid" id="channel-grid"></div>
 
-    <!-- ✅ Telegram Mini App Logic -->
     <script>
-        const tg = window.Telegram.WebApp;
+        // API and Proxy config
+        const API_URL = 'https://api.cdnlivetv.tv/api/v1/channels/?user=cdnlivetv&plan=free';
+        const PROXY = 'https://corsproxy.io/?';
 
-        // Expand app to fullscreen
-        tg.expand();
+        async function fetchChannels() {
+            const loader = document.getElementById('loader');
+            const statusText = document.getElementById('status-text');
+            
+            try {
+                const response = await fetch(PROXY + encodeURIComponent(API_URL));
+                if (!response.ok) throw new Error("CORS Proxy Failure");
+                
+                const data = await response.json();
+                
+                // Filter specifically for Australia (au) and New Zealand (nz)
+                const oceaniaChannels = (data.channels || []).filter(ch => {
+                    const code = ch.code ? ch.code.toLowerCase() : '';
+                    return code === 'au' || code === 'nz';
+                });
 
-        // Notify Telegram app is ready
-        tg.ready();
-
-        // Apply Telegram theme
-        if (tg.themeParams) {
-            document.body.style.backgroundColor = tg.themeParams.bg_color || "#0f172a";
+                loader.style.display = 'none';
+                statusText.innerText = `Online: ${oceaniaChannels.length} Channels found in AU & NZ`;
+                
+                renderGrid(oceaniaChannels);
+            } catch (err) {
+                loader.innerText = "Error loading channels. Try refreshing.";
+                statusText.innerText = "Connection Failed";
+                console.error("Fetch error:", err);
+            }
         }
 
-        // Optional: get user info
-        const user = tg.initDataUnsafe?.user;
-        if (user) {
-            console.log("User:", user);
+        function renderGrid(channels) {
+            const grid = document.getElementById('channel-grid');
+            grid.innerHTML = '';
+
+            if (channels.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1">No channels currently active for AU/NZ region.</p>';
+                return;
+            }
+
+            channels.forEach(ch => {
+                // Final safety check to keep Termux logs clean
+                if (!ch.url || ch.url === "null") return;
+
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                // Badge for country
+                const badge = document.createElement('span');
+                badge.className = 'badge';
+                badge.textContent = ch.code;
+
+                const img = document.createElement('img');
+                img.src = (ch.image && ch.image.startsWith('http')) ? ch.image : "https://via.placeholder.com/60?text=TV";
+                img.loading = "lazy";
+
+                const name = document.createElement('p');
+                name.textContent = ch.name;
+
+                card.appendChild(badge);
+                card.appendChild(img);
+                card.appendChild(name);
+
+                card.onclick = () => {
+                    const container = document.getElementById('player-container');
+                    const iframe = document.getElementById('main-ifr');
+                    const title = document.getElementById('p-title');
+
+                    title.textContent = `Watching: ${ch.name} (${ch.code.toUpperCase()})`;
+                    iframe.src = ch.url;
+                    container.style.display = 'block';
+                    
+                    // Smooth scroll to the player
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                };
+
+                grid.appendChild(card);
+            });
         }
+
+        // Initialize
+        fetchChannels();
     </script>
-
-    <!-- Demo Channel Logic (you can replace with your real data) -->
-    <script>
-        const channels = [
-            { name: "NRL Live", url: "https://example.com", logo: "https://via.placeholder.com/60", tag: "LIVE" },
-            { name: "Fox Sports AU", url: "https://example.com", logo: "https://via.placeholder.com/60" },
-            { name: "Sky NZ", url: "https://example.com", logo: "https://via.placeholder.com/60" }
-        ];
-
-        const grid = document.getElementById("channel-grid");
-        const player = document.getElementById("player");
-        const container = document.getElementById("player-container");
-        const title = document.getElementById("p-title");
-        const status = document.getElementById("status-text");
-
-        grid.innerHTML = "";
-
-        channels.forEach(ch => {
-            const card = document.createElement("div");
-            card.className = "card";
-
-            card.innerHTML = `
-                ${ch.tag ? `<div class="badge">${ch.tag}</div>` : ""}
-                <img src="${ch.logo}" />
-                <p>${ch.name}</p>
-            `;
-
-            card.onclick = () => {
-                player.src = ch.url;
-                title.innerText = ch.name;
-                container.style.display = "block";
-                window.scrollTo({ top: 0, behavior: "smooth" });
-            };
-
-            grid.appendChild(card);
-        });
-
-        status.innerText = "Channels loaded ✔";
-    </script>
-
 </body>
 </html>
