@@ -148,6 +148,18 @@ iframe {
 </head>
 
 <body>
+    <div id="loginBox" style="padding:30px;text-align:center;">
+
+<h2>Enter Access Token</h2>
+
+<input type="text" id="tokenInput" placeholder="Enter token">
+
+<button onclick="checkToken()">Open App</button>
+
+<p id="msg"></p>
+
+    </div>
+    <div id="app" style="display:none;">
 
 <div class="png-bar"></div>
 
@@ -263,6 +275,33 @@ function goFullscreen() {
 // INIT
 fetchChannels();
 </script>
+    </div>
+    <script>
 
+async function checkToken() {
+
+    const token = document.getElementById("tokenInput").value;
+
+    const res = await fetch("tokens.json");
+
+    const data = await res.json();
+
+    const valid = data.tokens.find(t => t.code === token);
+
+    if(valid){
+
+        document.getElementById("loginBox").style.display = "none";
+
+        document.getElementById("app").style.display = "block";
+
+    } else {
+
+        document.getElementById("msg").innerText = "Invalid Token";
+
+    }
+
+}
+
+    </script>
 </body>
 </html>
