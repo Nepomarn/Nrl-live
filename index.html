@@ -324,12 +324,11 @@ async function checkToken(){
 
     try{
 
-        const { data, error } =
-        await client
-        .from('tokens')
-        .select('*')
-        .eq('token', token)
-        .eq('active', true);
+const { data, error } = await client
+.from('users')
+.select('*')
+.eq('token', token)
+.eq('active', true);
 
         if(error){
             console.log(error);
