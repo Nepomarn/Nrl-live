@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetPg TV</title>
+
+<style>
+
+:root{
+    --bg:#020617;
+    --card:#0f172a;
+    --card2:#111827;
+    --accent:#ff0000;
+    --gold:#ffd700;
+    --text:#e2e8f0;
+    --muted:#94a3b8;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family:system-ui,sans-serif;
+    background:linear-gradient(to bottom,#020617,#071124);
+    color:var(--text);
+}
+
+/* LOGIN */
+
+#loginBox{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:30px 20px;
+    text-align:center;
+}
+
+.login-card{
+    width:100%;
+    max-width:380px;
+    background:rgba(15,23,42,0.95);
+    border:1px solid #1e293b;
+    border-radius:24px;
+    padding:30px 25px;
+    box-shadow:0 0 25px rgba(0,0,0,0.4);
+}
+
+.login-title{
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.login-sub{
+    color:var(--muted);
+    font-size:14px;
+    margin-bottom:25px;
+}
+
+#tokenInput{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    background:#0b1220;
+    color:white;
+    outline:none;
+    font-size:15px;
+    border:1px solid #1e293b;
+}
+
+#tokenInput:focus{
+    border-color:red;
+    box-shadow:0 0 10px rgba(255,0,0,0.25);
+}
+
+#btn{
+    margin-top:15px;
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    background:linear-gradient(135deg,#ff0000,#d40000);
+    color:white;
+    font-weight:bold;
+    font-size:15px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+#btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(255,0,0,0.3);
+}
+
+#msg{
+    margin-top:15px;
+    color:#ffd700;
+    font-size:14px;
+}
+
+/* TOP BAR */
+
+.png-bar{
+    height:4px;
+    background:linear-gradient(to right,black,red,gold);
+}
+
+/* HEADER */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 15px;
+}
+
+.logo{
+    font-weight:800;
+    font-size:1.4rem;
+}
+
+.live-count{
+    background:rgba(255,0,0,0.15);
+    color:#ff4d4d;
+    padding:7px 14px;
+    border-radius:30px;
+    font-size:0.8rem;
+    border:1px solid rgba(255,0,0,0.2);
+}
+
+/* STICKY PLAYER */
+
+.sticky-player{
+    position:sticky;
+    top:0;
+    z-index:999;
+    background:#020617;
+    padding-top:5px;
+}
+
+/* PLAYER */
+
+.player-card{
+    margin:15px;
+    background:#000;
+    border-radius:22px;
+    overflow:hidden;
+    position:relative;
+    border:1px solid #1e293b;
+    box-shadow:
+    0 0 20px rgba(0,0,0,0.35),
+    0 5px 30px rgba(255,0,0,0.08);
+}
+
+.player-top{
+    position:relative;
+}
+
+.live-badge{
+    position:absolute;
+    top:12px;
+    left:12px;
+    background:red;
+    color:white;
+    padding:5px 12px;
+    border-radius:20px;
+    font-size:0.75rem;
+    z-index:2;
+    font-weight:bold;
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+    0%{opacity:1;}
+    50%{opacity:0.6;}
+    100%{opacity:1;}
+}
+
+iframe{
+    width:100%;
+    height:240px;
+    border:none;
+    background:black;
+}
+
+.fullscreen-btn{
+    position:absolute;
+    bottom:12px;
+    right:12px;
+    background:rgba(0,0,0,0.65);
+    border:none;
+    color:white;
+    padding:10px 14px;
+    border-radius:12px;
+    cursor:pointer;
+    z-index:2;
+    transition:0.3s;
+    font-size:14px;
+}
+
+.fullscreen-btn:hover{
+    background:red;
+}
+
+.player-info{
+    padding:18px;
+    background:linear-gradient(to bottom,#0f172a,#09111f);
+}
+
+.player-title{
+    font-size:1.1rem;
+    font-weight:bold;
+}
+
+.player-sub{
+    margin-top:5px;
+    font-size:0.85rem;
+    color:#94a3b8;
+}
+
+/* SEARCH */
+
+.search-wrap{
+    padding:0 15px;
+}
+
+.search-box{
+    padding:14px;
+    border-radius:16px;
+    background:#0b1220;
+    border:1px solid #1e293b;
+    color:white;
+    width:100%;
+    outline:none;
+    font-size:15px;
+}
+
+.search-box:focus{
+    border-color:red;
+}
+
+/* CATEGORY BAR */
+
+.category-wrap{
+    overflow-x:auto;
+    white-space:nowrap;
+    padding:12px 15px;
+    scrollbar-width:none;
+}
+
+.category-wrap::-webkit-scrollbar{
+    display:none;
+}
+
+.category-btn{
+    display:inline-block;
+    padding:10px 16px;
+    margin-right:10px;
+    border-radius:30px;
+    background:#0f172a;
+    border:1px solid #1e293b;
+    color:white;
+    cursor:pointer;
+    font-size:14px;
+    transition:0.3s;
+}
+
+.category-btn:hover{
+    border-color:red;
+}
+
+.category-btn.active{
+    background:red;
+    border-color:red;
+}
+
+/* PINNED */
+
+.pinned-title{
+    padding:5px 15px;
+    font-size:15px;
+    font-weight:bold;
+    color:#ffd700;
+}
+
+/* GRID */
+
+.section{
+    padding:15px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.card{
+    padding:16px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#111827,#020617);
+    cursor:pointer;
+    position:relative;
+    transition:0.3s;
+    border:1px solid #1e293b;
+    backdrop-filter:blur(8px);
+}
+
+.card:hover{
+    transform:translateY(-3px);
+    border-color:red;
+}
+
+.card.active{
+    border:1px solid red;
+    box-shadow:0 0 15px rgba(255,0,0,0.4);
+}
+
+.badge{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:rgba(255,0,0,0.15);
+    color:#ff4d4d;
+    font-size:0.7rem;
+    padding:4px 8px;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+.channel-name{
+    font-size:15px;
+    font-weight:700;
+    margin-top:10px;
+}
+
+.channel-sub{
+    margin-top:6px;
+    font-size:12px;
+    color:#94a3b8;
+}
+
+/* FAVORITES */
+
+.fav-btn{
+    position:absolute;
+    bottom:10px;
+    right:10px;
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    border:none;
+    background:rgba(0,0,0,0.6);
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.fav-btn.active{
+    background:red;
+}
+
+.flag{
+    font-size:18px;
+    margin-right:6px;
+}
+
+.loading{
+    text-align:center;
+    padding:25px;
+    color:red;
+    font-weight:bold;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    iframe{
+        height:220px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div id="loginBox">
+
+<div class="login-card">
+
+<div class="login-title">
+NetPg TV
+</div>
+
+<div class="login-sub">
+Enter your access token
+</div>
+
+<input
+type="text"
+id="tokenInput"
+placeholder="Enter access token"
+/>
+
+<button id="btn" onclick="checkToken()">
+Open App
+</button>
+
+<p id="msg"></p>
+
+</div>
+
+</div>
+
+<!-- APP -->
+
+<div id="app" style="display:none;">
+
+<div class="png-bar"></div>
+
+<div class="header">
+
+<div class="logo">
+NetPg TV
+</div>
+
+<div class="live-count">
+LIVE CHANNELS
+</div>
+
+</div>
+
+<!-- STICKY PLAYER -->
+
+<div class="sticky-player">
+
+<div class="player-card">
+
+<div class="player-top">
+
+<div class="live-badge">
+LIVE
+</div>
+
+<iframe
+id="player"
+allowfullscreen
+allow="encrypted-media">
+</iframe>
+
+<button
+class="fullscreen-btn"
+onclick="goFullscreen()">
+Fullscreen
+</button>
+
+</div>
+
+<div class="player-info">
+
+<div class="player-title" id="title">
+Loading channels...
+</div>
+
+<div class="player-sub">
+Papua New Guinea Live Streaming
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- SEARCH -->
+
+<div class="search-wrap">
+
+<input
+type="text"
+id="search"
+class="search-box"
+placeholder="Search channels..."
+>
+
+</div>
+
+<!-- CATEGORIES -->
+
+<div class="category-wrap">
+
+<button class="category-btn active"
+onclick="filterCategory('all', this)">
+All
+</button>
+
+<button class="category-btn"
+onclick="filterCategory('favorites', this)">
+Favorites
+</button>
+
+<button class="category-btn"
+onclick="filterCategory('png', this)">
+PNG
+</button>
+
+<button class="category-btn"
+onclick="filterCategory('sports', this)">
+Sports
+</button>
+
+<button class="category-btn"
+onclick="filterCategory('movies', this)">
+Movies
+</button>
+
+<button class="category-btn"
+onclick="filterCategory('news', this)">
+News
+</button>
+
+<button class="category-btn"
+onclick="filterCategory('kids', this)">
+Kids
+</button>
+
+<button class="category-btn"
+onclick="filterCategory('music', this)">
+Music
+</button>
+
+</div>
+
+<!-- PINNED -->
+
+<div class="pinned-title">
+📌 Australia & New Zealand Channels
+</div>
+
+<div class="section">
+<div class="grid" id="pinnedGrid"></div>
+</div>
+
+<!-- LOADER -->
+
+<div id="loader" class="loading">
+Loading channels...
+</div>
+
+<!-- CHANNELS -->
+
+<div class="section">
+<div class="grid" id="grid"></div>
+</div>
+
+</div>
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+
+/* SUPABASE */
+
+const SUPABASE_URL =
+'https://mvasxdglttpfzofhmjcn.supabase.co';
+
+const SUPABASE_KEY =
+'YOUR_SUPABASE_KEY';
+
+const client =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+/* LOGIN */
+
+async function checkToken(){
+
+const token =
+document.getElementById("tokenInput")
+.value.trim();
+
+const btn =
+document.getElementById("btn");
+
+const msg =
+document.getElementById("msg");
+
+if(!token){
+
+msg.innerText =
+"Please enter your token";
+
+return;
+
+}
+
+btn.innerText = "Checking...";
+btn.disabled = true;
+
+try{
+
+const { data, error } =
+await client
+.from('users')
+.select('*')
+.eq('token', token)
+.eq('active', true);
+
+if(error){
+
+msg.innerText =
+"Database error";
+
+}
+
+else if(data.length > 0){
+
+localStorage.setItem(
+"vip_token",
+token
+);
+
+document.getElementById(
+"loginBox"
+).style.display = "none";
+
+document.getElementById(
+"app"
+).style.display = "block";
+
+fetchChannels();
+
+}
+
+else{
+
+msg.innerText =
+"Invalid token";
+
+}
+
+}
+
+catch(err){
+
+msg.innerText =
+"Connection failed";
+
+}
+
+btn.innerText = "Open App";
+btn.disabled = false;
+
+}
+
+/* AUTO LOGIN */
+
+window.onload = async () => {
+
+const saved =
+localStorage.getItem("vip_token");
+
+if(saved){
+
+document.getElementById(
+"tokenInput"
+).value = saved;
+
+checkToken();
+
+}
+
+}
+
+/* IPTV */
+
+const API_ENCODED =
+"aHR0cHM6Ly9uZXRwZy1hcGkubmV0cGdtb3ZpZS53b3JrZXJzLmRldg==";
+
+const API_URL =
+atob(API_ENCODED);
+
+const PROXY_ENCODED =
+"aHR0cHM6Ly9jb3JzcHJveHkuaW8vPw==";
+
+const PROXY =
+atob(PROXY_ENCODED);
+
+let allChannels = [];
+
+let currentCategory = "all";
+
+let favorites =
+JSON.parse(
+localStorage.getItem("favorites")
+|| "[]"
+);
+
+/* FETCH */
+
+async function fetchChannels(){
+
+try{
+
+const res = await fetch(
+PROXY + encodeURIComponent(API_URL)
+);
+
+const data = await res.json();
+
+allChannels =
+data.channels || [];
+
+render(allChannels);
+
+renderPinned();
+
+}
+
+catch(e){
+
+document.getElementById(
+"loader"
+).innerText =
+"Failed to load channels";
+
+}
+
+document.getElementById(
+"loader"
+).style.display = "none";
+
+}
+
+/* CATEGORY DETECT */
+
+function detectCategory(name){
+
+const n =
+(name || "").toLowerCase();
+
+if(
+n.includes("sport") ||
+n.includes("espn") ||
+n.includes("fox sports")
+){
+return "sports";
+}
+
+if(
+n.includes("movie") ||
+n.includes("cinema")
+){
+return "movies";
+}
+
+if(
+n.includes("news") ||
+n.includes("cnn") ||
+n.includes("bbc")
+){
+return "news";
+}
+
+if(
+n.includes("kids") ||
+n.includes("cartoon")
+){
+return "kids";
+}
+
+if(
+n.includes("music") ||
+n.includes("mtv")
+){
+return "music";
+}
+
+return "png";
+
+}
+
+/* PINNED */
+
+function getPinnedChannels(){
+
+return allChannels.filter(ch => {
+
+const n =
+(ch.name || "").toLowerCase();
+
+return (
+n.includes("australia") ||
+n.includes("new zealand") ||
+n.includes("abc") ||
+n.includes("7mate") ||
+n.includes("9now") ||
+n.includes("sky nz")
+);
+
+});
+
+}
+
+function renderPinned(){
+
+const grid =
+document.getElementById(
+"pinnedGrid"
+);
+
+grid.innerHTML = "";
+
+const pinned =
+getPinnedChannels();
+
+pinned.forEach(ch => {
+
+const card =
+createCard(ch);
+
+grid.appendChild(card);
+
+});
+
+}
+
+/* FILTER */
+
+function filterCategory(category, btn){
+
+currentCategory = category;
+
+document
+.querySelectorAll(".category-btn")
+.forEach(b =>
+b.classList.remove("active")
+);
+
+btn.classList.add("active");
+
+let filtered = [];
+
+if(category === "all"){
+
+filtered = allChannels;
+
+}
+
+else if(category === "favorites"){
+
+filtered =
+allChannels.filter(ch =>
+favorites.includes(ch.url)
+);
+
+}
+
+else{
+
+filtered =
+allChannels.filter(ch =>
+detectCategory(ch.name)
+=== category
+);
+
+}
+
+render(filtered);
+
+}
+
+/* FAVORITES */
+
+function toggleFavorite(url, btn){
+
+if(favorites.includes(url)){
+
+favorites =
+favorites.filter(
+f => f !== url
+);
+
+btn.classList.remove("active");
+btn.innerHTML = "☆";
+
+}
+
+else{
+
+favorites.push(url);
+
+btn.classList.add("active");
+btn.innerHTML = "★";
+
+}
+
+localStorage.setItem(
+"favorites",
+JSON.stringify(favorites)
+);
+
+}
+
+/* CREATE CARD */
+
+function createCard(ch){
+
+const card =
+document.createElement("div");
+
+card.className = "card";
+
+const isFav =
+favorites.includes(ch.url);
+
+let flag = "📺";
+
+const name =
+(ch.name || "").toLowerCase();
+
+if(name.includes("australia")){
+flag = "🇦🇺";
+}
+
+if(name.includes("new zealand")){
+flag = "🇳🇿";
+}
+
+card.innerHTML = `
+
+<div class="badge">
+LIVE
+</div>
+
+<button class="
+fav-btn
+${isFav ? 'active' : ''}
+">
+${isFav ? '★' : '☆'}
+</button>
+
+<div class="channel-name">
+
+<span class="flag">
+${flag}
+</span>
+
+${ch.name}
+
+</div>
+
+<div class="channel-sub">
+${ch.code || "Live TV"}
+</div>
+
+`;
+
+card.onclick = () =>
+play(card, ch.name, ch.url);
+
+const favBtn =
+card.querySelector(".fav-btn");
+
+favBtn.onclick = (e) => {
+
+e.stopPropagation();
+
+toggleFavorite(
+ch.url,
+favBtn
+);
+
+};
+
+return card;
+
+}
+
+/* RENDER */
+
+function render(channels){
+
+const grid =
+document.getElementById("grid");
+
+grid.innerHTML = "";
+
+channels.forEach(ch => {
+
+if(!ch.url) return;
+
+const card =
+createCard(ch);
+
+grid.appendChild(card);
+
+});
+
+}
+
+/* SEARCH */
+
+document.addEventListener(
+"input",
+e => {
+
+if(e.target.id === "search"){
+
+const val =
+e.target.value.toLowerCase();
+
+const filtered =
+allChannels.filter(ch =>
+(ch.name || "")
+.toLowerCase()
+.includes(val)
+);
+
+render(filtered);
+
+}
+
+}
+);
+
+/* PLAY */
+
+function play(el, name, url){
+
+document.getElementById(
+"title"
+).innerText = name;
+
+const hiddenUrl =
+btoa(url);
+
+document.getElementById(
+"player"
+).src = atob(hiddenUrl);
+
+document
+.querySelectorAll(".card")
+.forEach(c =>
+c.classList.remove("active")
+);
+
+el.classList.add("active");
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+/* FULLSCREEN */
+
+function goFullscreen(){
+
+const iframe =
+document.getElementById(
+"player"
+);
+
+if(iframe.requestFullscreen){
+iframe.requestFullscreen();
+}
+
+}
+
+</script>
+
+<script>
+
+/* DISABLE INSPECT */
+
+document.addEventListener(
+'contextmenu',
+event => event.preventDefault()
+);
+
+document.onkeydown = function(e){
+
+if(e.keyCode == 123){
+return false;
+}
+
+if(
+e.ctrlKey &&
+e.shiftKey &&
+e.keyCode ==
+'I'.charCodeAt(0)
+){
+return false;
+}
+
+}
+
+</script>
+
+</body>
+</html>
