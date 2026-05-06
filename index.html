@@ -392,9 +392,12 @@ window.onload = async () => {
 
 /* IPTV */
 
-const API_URL =
+const API_ENCODED =
 "aHR0cHM6Ly9uZXRwZy1hcGkubmV0cGdtb3ZpZS53b3JrZXJzLmRldg==";
 
+const API_URL =
+atob(API_ENCODED);
+    
 const PROXY_ENCODED =
 "aHR0cHM6Ly9jb3JzcHJveHkuaW8vPw==";
 
