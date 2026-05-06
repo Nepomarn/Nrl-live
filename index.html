@@ -392,11 +392,15 @@ window.onload = async () => {
 
 /* IPTV */
 
-const API_URL =
-"https://api.cdnlivetv.tv/api/v1/channels/?user=cdnlivetv&plan=free";
+const API_ENCODED =
+"aHR0cHM6Ly9hcGkuY2RubGl2ZXR2LnR2L2FwaS92MS9jaGFubmVscy8_dXNlcj1jZG5saXZldHYmcGxhbj1mcmVl";
 
-const PROXY =
-"https://corsproxy.io/?";
+const API_URL = atob(API_ENCODED);
+
+const PROXY_ENCODED =
+"aHR0cHM6Ly9jb3JzcHJveHkuaW8vPw==";
+
+const PROXY = atob(PROXY_ENCODED);
 
 let allChannels = [];
 
@@ -495,10 +499,11 @@ function play(el, name, url){
         "title"
     ).innerText = name;
 
-    document.getElementById(
-        "player"
-    ).src = url;
+    const hiddenUrl = btoa(url);
 
+document.getElementById(
+    "player"
+).src = atob(hiddenUrl);
     document
     .querySelectorAll(".card")
     .forEach(c =>
@@ -528,6 +533,26 @@ function goFullscreen(){
 }
 
 </script>
+    <script>
+
+document.addEventListener('contextmenu',
+event => event.preventDefault());
+
+document.onkeydown = function(e){
+
+    if(e.keyCode == 123){
+        return false;
+    }
+
+    if(e.ctrlKey &&
+       e.shiftKey &&
+       e.keyCode == 'I'.charCodeAt(0)){
+        return false;
+    }
+
+}
+
+    </script>
 
 </body>
 </html>
