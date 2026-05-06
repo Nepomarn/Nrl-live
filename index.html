@@ -148,6 +148,17 @@ iframe {
 </head>
 
 <body>
+    <div id="loginBox" style="text-align:center;padding:30px;">
+
+<h2>Enter Access Token</h2>
+
+<input type="text" id="tokenInput" placeholder="Enter token">
+
+<button onclick="checkToken()">Open App</button>
+
+<p id="msg"></p>
+
+    </div>
     <div id="loginBox" style="padding:30px;text-align:center;">
 
 <h2>Enter Access Token</h2>
@@ -297,6 +308,56 @@ async function checkToken() {
     } else {
 
         document.getElementById("msg").innerText = "Invalid Token";
+
+    }
+
+}
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+
+const SUPABASE_URL = 'https://mvasxdglttpfzofhmjcn.supabase.co/rest/v1/';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12YXN4ZGdsdHRwZnpvZmhtamNuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNDIxMjQsImV4cCI6MjA5MzYxODEyNH0.LTXL0-Mcyy5fzjcKHFeAdt3qcrymG5S6GQBpQJMdHxg';
+
+const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function checkToken() {
+
+    const token = document.getElementById("tokenInput").value;
+
+    const { data, error } = await client
+    .from('tokens')
+    .select('*')
+    .eq('token', token)
+    .eq('active', true);
+
+    if(data.length > 0){
+
+        localStorage.setItem("vip_token", token);
+
+        document.getElementById("loginBox").style.display = "none";
+
+        document.getElementById("app").style.display = "block";
+
+    } else {
+
+        document.getElementById("msg").innerText = "Invalid Token";
+
+    }
+
+}
+
+// AUTO LOGIN
+window.onload = async () => {
+
+    const saved = localStorage.getItem("vip_token");
+
+    if(saved){
+
+        document.getElementById("tokenInput").value = saved;
+
+        checkToken();
 
     }
 
