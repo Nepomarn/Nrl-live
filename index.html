@@ -624,10 +624,14 @@ try{
 
 const { data, error } =
 await client
-.from('users')
+.from('tokens')
 .select('*')
 .eq('token', token)
 .eq('active', true);
+    .gte(
+  'expires_at',
+  new Date().toISOString()
+);
 
 if(error){
 
