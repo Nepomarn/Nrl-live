@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NetPg TV</title>
+<title> NetPg TV</title>
 
 <style>
 
@@ -80,7 +80,6 @@ body{
 
 #tokenInput:focus{
     border-color:red;
-    box-shadow:0 0 10px rgba(255,0,0,0.25);
 }
 
 #btn{
@@ -94,12 +93,6 @@ body{
     font-weight:bold;
     font-size:15px;
     cursor:pointer;
-    transition:0.3s;
-}
-
-#btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 8px 20px rgba(255,0,0,0.3);
 }
 
 #msg{
@@ -108,14 +101,10 @@ body{
     font-size:14px;
 }
 
-/* TOP BAR */
-
 .png-bar{
     height:4px;
     background:linear-gradient(to right,black,red,gold);
 }
-
-/* HEADER */
 
 .header{
     display:flex;
@@ -135,10 +124,7 @@ body{
     padding:7px 14px;
     border-radius:30px;
     font-size:0.8rem;
-    border:1px solid rgba(255,0,0,0.2);
 }
-
-/* STICKY PLAYER */
 
 .sticky-player{
     position:sticky;
@@ -148,18 +134,12 @@ body{
     padding-top:5px;
 }
 
-/* PLAYER */
-
 .player-card{
     margin:15px;
     background:#000;
     border-radius:22px;
     overflow:hidden;
-    position:relative;
     border:1px solid #1e293b;
-    box-shadow:
-    0 0 20px rgba(0,0,0,0.35),
-    0 5px 30px rgba(255,0,0,0.08);
 }
 
 .player-top{
@@ -177,13 +157,6 @@ body{
     font-size:0.75rem;
     z-index:2;
     font-weight:bold;
-    animation:pulse 1.5s infinite;
-}
-
-@keyframes pulse{
-    0%{opacity:1;}
-    50%{opacity:0.6;}
-    100%{opacity:1;}
 }
 
 iframe{
@@ -203,13 +176,6 @@ iframe{
     padding:10px 14px;
     border-radius:12px;
     cursor:pointer;
-    z-index:2;
-    transition:0.3s;
-    font-size:14px;
-}
-
-.fullscreen-btn:hover{
-    background:red;
 }
 
 .player-info{
@@ -228,8 +194,6 @@ iframe{
     color:#94a3b8;
 }
 
-/* SEARCH */
-
 .search-wrap{
     padding:0 15px;
 }
@@ -245,21 +209,10 @@ iframe{
     font-size:15px;
 }
 
-.search-box:focus{
-    border-color:red;
-}
-
-/* CATEGORY BAR */
-
 .category-wrap{
     overflow-x:auto;
     white-space:nowrap;
     padding:12px 15px;
-    scrollbar-width:none;
-}
-
-.category-wrap::-webkit-scrollbar{
-    display:none;
 }
 
 .category-btn{
@@ -271,12 +224,6 @@ iframe{
     border:1px solid #1e293b;
     color:white;
     cursor:pointer;
-    font-size:14px;
-    transition:0.3s;
-}
-
-.category-btn:hover{
-    border-color:red;
 }
 
 .category-btn.active{
@@ -284,16 +231,12 @@ iframe{
     border-color:red;
 }
 
-/* PINNED */
-
 .pinned-title{
     padding:5px 15px;
     font-size:15px;
     font-weight:bold;
     color:#ffd700;
 }
-
-/* GRID */
 
 .section{
     padding:15px;
@@ -311,19 +254,11 @@ iframe{
     background:linear-gradient(135deg,#111827,#020617);
     cursor:pointer;
     position:relative;
-    transition:0.3s;
     border:1px solid #1e293b;
-    backdrop-filter:blur(8px);
-}
-
-.card:hover{
-    transform:translateY(-3px);
-    border-color:red;
 }
 
 .card.active{
     border:1px solid red;
-    box-shadow:0 0 15px rgba(255,0,0,0.4);
 }
 
 .badge{
@@ -335,7 +270,6 @@ iframe{
     font-size:0.7rem;
     padding:4px 8px;
     border-radius:10px;
-    font-weight:bold;
 }
 
 .channel-name{
@@ -350,8 +284,6 @@ iframe{
     color:#94a3b8;
 }
 
-/* FAVORITES */
-
 .fav-btn{
     position:absolute;
     bottom:10px;
@@ -363,16 +295,10 @@ iframe{
     background:rgba(0,0,0,0.6);
     color:white;
     cursor:pointer;
-    font-size:16px;
 }
 
 .fav-btn.active{
     background:red;
-}
-
-.flag{
-    font-size:18px;
-    margin-right:6px;
 }
 
 .loading{
@@ -382,17 +308,15 @@ iframe{
     font-weight:bold;
 }
 
-/* MOBILE */
-
 @media(max-width:600px){
 
-    .grid{
-        grid-template-columns:1fr;
-    }
+.grid{
+grid-template-columns:1fr;
+}
 
-    iframe{
-        height:220px;
-    }
+iframe{
+height:220px;
+}
 
 }
 
@@ -400,8 +324,6 @@ iframe{
 </head>
 
 <body>
-
-<!-- LOGIN -->
 
 <div id="loginBox">
 
@@ -431,8 +353,6 @@ Open App
 
 </div>
 
-<!-- APP -->
-
 <div id="app" style="display:none;">
 
 <div class="png-bar"></div>
@@ -440,7 +360,7 @@ Open App
 <div class="header">
 
 <div class="logo">
-🇵🇬 NetPg TV
+NetPg TV
 </div>
 
 <div class="live-count">
@@ -448,8 +368,6 @@ LIVE CHANNELS
 </div>
 
 </div>
-
-<!-- STICKY PLAYER -->
 
 <div class="sticky-player">
 
@@ -491,8 +409,6 @@ Papua New Guinea Live Streaming
 
 </div>
 
-<!-- SEARCH -->
-
 <div class="search-wrap">
 
 <input
@@ -503,8 +419,6 @@ placeholder="Search channels..."
 >
 
 </div>
-
-<!-- CATEGORIES -->
 
 <div class="category-wrap">
 
@@ -550,8 +464,6 @@ Music
 
 </div>
 
-<!-- PINNED -->
-
 <div class="pinned-title">
 📌 Australia & New Zealand Channels
 </div>
@@ -560,21 +472,15 @@ Music
 <div class="grid" id="pinnedGrid"></div>
 </div>
 
-<!-- LOADER -->
-
 <div id="loader" class="loading">
 Loading channels...
 </div>
-
-<!-- CHANNELS -->
 
 <div class="section">
 <div class="grid" id="grid"></div>
 </div>
 
 </div>
-
-<!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
@@ -624,23 +530,21 @@ try{
 
 const { data, error } =
 await client
-.from('tokens')
+.from('users')
 .select('*')
 .eq('token', token)
-.eq('active', true)
-    .gte(
-  'expires_at',
-  new Date().toISOString()
-);
+.eq('active', true);
 
 if(error){
+
+console.log(error);
 
 msg.innerText =
 "Database error";
 
 }
 
-else if(data.length > 0){
+else if(data && data.length > 0){
 
 localStorage.setItem(
 "vip_token",
@@ -669,6 +573,8 @@ msg.innerText =
 }
 
 catch(err){
+
+console.log(err);
 
 msg.innerText =
 "Connection failed";
@@ -715,8 +621,6 @@ atob(PROXY_ENCODED);
 
 let allChannels = [];
 
-let currentCategory = "all";
-
 let favorites =
 JSON.parse(
 localStorage.getItem("favorites")
@@ -742,9 +646,30 @@ render(allChannels);
 
 renderPinned();
 
+document.querySelector(
+".live-count"
+).innerText =
+allChannels.length + " LIVE CHANNELS";
+
+if(allChannels.length > 0){
+
+document.getElementById(
+"title"
+).innerText =
+allChannels[0].name;
+
+document.getElementById(
+"player"
+).src =
+allChannels[0].url;
+
+}
+
 }
 
 catch(e){
+
+console.log(e);
 
 document.getElementById(
 "loader"
@@ -759,7 +684,7 @@ document.getElementById(
 
 }
 
-/* CATEGORY DETECT */
+/* CATEGORY */
 
 function detectCategory(name){
 
@@ -768,37 +693,31 @@ const n =
 
 if(
 n.includes("sport") ||
-n.includes("espn") ||
-n.includes("fox sports")
+n.includes("espn")
 ){
 return "sports";
 }
 
 if(
-n.includes("movie") ||
-n.includes("cinema")
+n.includes("movie")
 ){
 return "movies";
 }
 
 if(
-n.includes("news") ||
-n.includes("cnn") ||
-n.includes("bbc")
+n.includes("news")
 ){
 return "news";
 }
 
 if(
-n.includes("kids") ||
-n.includes("cartoon")
+n.includes("kids")
 ){
 return "kids";
 }
 
 if(
-n.includes("music") ||
-n.includes("mtv")
+n.includes("music")
 ){
 return "music";
 }
@@ -821,8 +740,7 @@ n.includes("australia") ||
 n.includes("new zealand") ||
 n.includes("abc") ||
 n.includes("7mate") ||
-n.includes("9now") ||
-n.includes("sky nz")
+n.includes("9now")
 );
 
 });
@@ -843,10 +761,9 @@ getPinnedChannels();
 
 pinned.forEach(ch => {
 
-const card =
-createCard(ch);
-
-grid.appendChild(card);
+grid.appendChild(
+createCard(ch)
+);
 
 });
 
@@ -855,8 +772,6 @@ grid.appendChild(card);
 /* FILTER */
 
 function filterCategory(category, btn){
-
-currentCategory = category;
 
 document
 .querySelectorAll(".category-btn")
@@ -941,19 +856,6 @@ card.className = "card";
 const isFav =
 favorites.includes(ch.url);
 
-let flag = "📺";
-
-const name =
-(ch.name || "").toLowerCase();
-
-if(name.includes("australia")){
-flag = "🇦🇺";
-}
-
-if(name.includes("new zealand")){
-flag = "🇳🇿";
-}
-
 card.innerHTML = `
 
 <div class="badge">
@@ -968,13 +870,7 @@ ${isFav ? '★' : '☆'}
 </button>
 
 <div class="channel-name">
-
-<span class="flag">
-${flag}
-</span>
-
 ${ch.name}
-
 </div>
 
 <div class="channel-sub">
@@ -1017,10 +913,9 @@ channels.forEach(ch => {
 
 if(!ch.url) return;
 
-const card =
-createCard(ch);
-
-grid.appendChild(card);
+grid.appendChild(
+createCard(ch)
+);
 
 });
 
@@ -1059,12 +954,9 @@ document.getElementById(
 "title"
 ).innerText = name;
 
-const hiddenUrl =
-btoa(url);
-
 document.getElementById(
 "player"
-).src = atob(hiddenUrl);
+).src = url;
 
 document
 .querySelectorAll(".card")
@@ -1072,7 +964,9 @@ document
 c.classList.remove("active")
 );
 
+if(el.classList){
 el.classList.add("active");
+}
 
 window.scrollTo({
 top:0,
@@ -1095,10 +989,6 @@ iframe.requestFullscreen();
 }
 
 }
-
-</script>
-
-<script>
 
 /* DISABLE INSPECT */
 
@@ -1127,4 +1017,4 @@ return false;
 </script>
 
 </body>
-</html>
+    </html>
