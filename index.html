@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🇵🇬 NetPg TV</title>
+<title>NetPg TV</title>
 
 <style>
 
@@ -440,7 +440,7 @@ Open App
 <div class="header">
 
 <div class="logo">
-NetPg TV
+🇵🇬 NetPg TV
 </div>
 
 <div class="live-count">
@@ -627,7 +627,7 @@ await client
 .from('tokens')
 .select('*')
 .eq('token', token)
-.eq('active', true);
+.eq('active', true)
     .gte(
   'expires_at',
   new Date().toISOString()
